@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,20 +11,18 @@ export class LoginComponent implements OnInit {
 
   userId = '';
   password = '';
-  autenticato = false;
+  autenticato: boolean;
   errorMessage = 'La userid o la password non sono corretti';
 
-  constructor(private route: Router) { }
+  constructor(private route: Router, private basicAuth: AuthService) { }
 
   ngOnInit() {
   }
 
   gestioneAutenticazione() {
-    if (this.userId === 'tan' && this.password === 'pass') {
+    this.autenticato = this.basicAuth.autentica(this.userId, this.password);
+    if (this.autenticato) {
       this.route.navigate(['welcome', this.userId]);
-      this.autenticato = true;
-    } else {
-      this.autenticato = false;
     }
   }
 

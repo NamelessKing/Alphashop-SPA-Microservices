@@ -11,17 +11,17 @@ export class LoginComponent implements OnInit {
 
   userId = '';
   password = '';
-  autenticato: boolean;
+  authenticated: boolean;
   errorMessage = 'La userid o la password non sono corretti';
 
-  constructor(private route: Router, private basicAuth: AuthService) { }
+  constructor(private route: Router, private auth: AuthService) { }
 
   ngOnInit() {
   }
 
   gestioneAutenticazione() {
-    this.autenticato = this.basicAuth.autentica(this.userId, this.password);
-    if (this.autenticato) {
+    this.authenticated = this.auth.authenticate(this.userId, this.password);
+    if (this.authenticated) {
       this.route.navigate(['welcome', this.userId]);
     }
   }

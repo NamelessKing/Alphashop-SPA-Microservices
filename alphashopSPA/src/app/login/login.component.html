@@ -1,4 +1,4 @@
-<app-jumbotron [Titolo]="'Autenticazione'" [SottoTitolo]="'Inserisci la Userid e la Password'"></app-jumbotron>
+<app-jumbotron [Title]="'Autenticazione'" [SubTitle]="'Inserisci la Userid e la Password'"></app-jumbotron>
 
 <div class=" login-container">
         <div class="row">
@@ -17,7 +17,7 @@
                         <a href="#" class="ForgetPwd">Password Dimenticata?</a>
                 </div>
 
-                <div class="alert alert-danger" role="alert" *ngIf='autenticato === false'>
+                <div class="alert alert-danger" role="alert" *ngIf='authenticated === false'>
                     {{errorMessage}}
                 </div>
 

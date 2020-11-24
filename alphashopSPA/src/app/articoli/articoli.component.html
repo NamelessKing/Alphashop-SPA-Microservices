@@ -1,4 +1,4 @@
-<app-jumbotron [Titolo]="'Articoli disponibili'" [SottoTitolo]="'Alimentari'"></app-jumbotron>
+<app-jumbotron [Title]="'Articoli disponibili'" [SubTitle]="'Alimentari'"></app-jumbotron>
 
 <table id="articoli" border="1">
   <thead>
@@ -15,15 +15,15 @@
   </thead>
 
   <tbody>
-    <tr *ngFor='let articolo of articoli'>
-      <td>{{articolo.codart}}</td>
-      <td>{{articolo.descrizione}}</td>
-      <td>{{articolo.um}}</td>
-      <td>{{articolo.pzcart}}</td>
-      <td>{{articolo.peso}}</td>
-      <td>{{articolo.prezzo}}</td>
-      <td>{{articolo.isActive}}</td>
-      <td>{{articolo.date | date}}</td>
+    <tr *ngFor='let item of items'>
+      <td>{{item.codart}}</td>
+      <td>{{item.descrizione}}</td>
+      <td>{{item.um}}</td>
+      <td>{{item.pzcart}}</td>
+      <td>{{item.peso}}</td>
+      <td>{{item.prezzo}}</td>
+      <td>{{item.isActive}}</td>
+      <td>{{item.date | date}}</td>
     </tr>
   </tbody>
 </table>

@@ -66,15 +66,15 @@
           <span class="caret"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <a class="dropdown-item" href="/login/form">Accedi</a>
-          <a class="dropdown-item" href="/register">Registrati</a>
-          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " *ngIf="!auth.isLogged()" href="/login/form" >Accedi</a>
+          <a class="dropdown-item " *ngIf="!auth.isLogged()" href="/register" >Registrati</a>
+          <!-- <div class="dropdown-divider"></div> -->
             <form id="myHiddenFormId" action="" method="post" style="display: none">
               <input type="hidden" name="logout" value="${User}">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           </form>
-        <a class="dropdown-item" *ngIf="auth.isLogged()" href="" onclick="$('#myHiddenFormId').submit(); return false;" title="Logout">Logout {{auth.getloggedUser()}}</a>
-        <a class="dropdown-item disabled" *ngIf="!auth.isLogged()" href=""  title="Logout">Logout</a>
+        <a class="dropdown-item" *ngIf="auth.isLogged()" routerLink="/logout"  title="Logout">Logout {{auth.getloggedUser()}}</a>
+        <!-- <a class="dropdown-item d-none disabled" *ngIf="!auth.isLogged()" href=""  title="Logout">Logout</a> -->
         </div>
       </div>
   </div>

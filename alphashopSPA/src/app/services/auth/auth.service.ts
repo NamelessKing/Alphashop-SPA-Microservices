@@ -24,4 +24,8 @@ export class AuthService {
   isLogged(): boolean {
     return (sessionStorage.getItem('userId') != null) ? true : false;
   }
+
+  clearUserIdSessionStorage() {
+    sessionStorage.removeItem('userId');
+  }
 }

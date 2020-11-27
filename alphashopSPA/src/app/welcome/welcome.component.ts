@@ -1,3 +1,4 @@
+import { WelcomeDataService } from './../services/data/productService/welcome-data.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,10 +14,17 @@ export class WelcomeComponent implements OnInit {
 
   user = '';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private welcomeDataService: WelcomeDataService
+  ) { }
 
   ngOnInit() {
     this.user = this.route.snapshot.params.userid;
+  }
+
+  welcomeRequest() {
+    this.welcomeDataService.welcomeRequest();
   }
 
 }

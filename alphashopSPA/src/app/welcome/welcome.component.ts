@@ -12,7 +12,9 @@ export class WelcomeComponent implements OnInit {
   welcome = 'Benvenuti su AlphashopSPA';
   title = 'Seleziona articoli da acquistare';
 
-  user = '';
+  username = '';
+
+  message = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -20,11 +22,15 @@ export class WelcomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user = this.route.snapshot.params.userid;
+    this.username = this.route.snapshot.paramMap.get('username');
+    // console.log(this.username);
   }
 
   welcomeRequest() {
-    this.welcomeDataService.welcomeRequest();
+    this.welcomeDataService.welcomeRequest(this.username).subscribe(
+      response => this.message = response.toString()
+    );
+
   }
 
 }

@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'index', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'welcome/:userId', component: WelcomeComponent, canActivate: [RouteGuardService] },
+  { path: 'welcome/:username', component: WelcomeComponent, canActivate: [RouteGuardService] },
   { path: 'articoli', component: ArticoliComponent, canActivate: [RouteGuardService]  },
   { path: 'logout', component: LogoutComponent },
   { path: '**', component: ErrorComponent },

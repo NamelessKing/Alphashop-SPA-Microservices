@@ -29,6 +29,14 @@ namespace ProductService
 
             app.UseRouting();
 
+            app.UseCors(options =>
+                options
+                    //.WithOrigins($"http://localhost:4200/")
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            );
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

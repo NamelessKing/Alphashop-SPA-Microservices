@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class WelcomeDataService {
 
-  private static readonly BASE_URL = 'http://localhost:5000/welcome';
+  private static readonly BASE_URL = 'http://localhost:5000/api/welcome';
 
   constructor(private httpClient: HttpClient) { }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ProductService.Controllers
@@ -8,15 +9,30 @@ namespace ProductService.Controllers
     public class WelcomeController : ControllerBase
     {
         [HttpGet]
-        public async Task<string> WelcomeAsync()
+        public async Task<IActionResult> WelcomeAsync()
         {
-            return await Task.FromResult("Welcome from WelcomeAsync() in WelcomeController.cs");
+            return await Task.FromResult(new JsonResult("Welcome from WelcomeAsync() in WelcomeController.cs"));
         }
 
         [HttpGet("{name}")]
-        public async Task<string> WelcomeAsync(string name)
+        public async Task<IActionResult> WelcomeAsync(string name)
         {
-            return await Task.FromResult($"Welcome {name},from WelcomeAsync(string name) in WelcomeController.cs");
+            try
+            {
+                if (name != "tan")
+                {
+                    throw new Exception("Error: invalid user");
+                }
+                else
+                {
+                    return await Task.FromResult(new JsonResult($"Welcome {name},from WelcomeAsync(string name) in WelcomeController.cs"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return await Task.FromResult(BadRequest(ex.Message));
+            }
+            
         }
     }
 }

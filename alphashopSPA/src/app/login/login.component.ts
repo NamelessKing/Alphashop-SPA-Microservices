@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  userId = '';
+  username = '';
   password = '';
   authenticated: boolean;
   errorMessage = 'La userid o la password non sono corretti';
@@ -20,9 +20,10 @@ export class LoginComponent implements OnInit {
   }
 
   gestioneAutenticazione() {
-    this.authenticated = this.auth.authenticate(this.userId, this.password);
+    this.authenticated = this.auth.authenticate(this.username, this.password);
     if (this.authenticated) {
-      this.route.navigate(['welcome', this.userId]);
+      this.route.navigate(['welcome', this.username]);
+      // console.log(this.username);
     }
   }
 

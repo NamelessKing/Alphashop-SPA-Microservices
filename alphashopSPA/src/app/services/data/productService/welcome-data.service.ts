@@ -1,6 +1,7 @@
 import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,20 @@ export class WelcomeDataService {
 
   // public welcomeRequest();
   // public welcomeRequest(name: string);
-  public welcomeRequest(name?: string) {
+  public welcomeRequest(name?: string): Observable<string> {
     if (typeof name === 'string') {
-      return this.httpClient.get(`${WelcomeDataService.BASE_URL}/${name}`);
+      return this.httpClient.get<string>(`${WelcomeDataService.BASE_URL}/${name}`)
+        .pipe(catchError(this.handleError));
     } else {
-      return this.httpClient.get(`${WelcomeDataService.BASE_URL}`);
+      return this.httpClient.get<string>(`${WelcomeDataService.BASE_URL}`)
+        .pipe(catchError(this.handleError));
     }
   }
+
+  handleError(error: any) {
+    return throwError(error.message || 'Server Error');
+  }
+
+
+
 }

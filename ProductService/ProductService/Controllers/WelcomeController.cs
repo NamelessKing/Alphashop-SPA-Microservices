@@ -30,7 +30,8 @@ namespace ProductService.Controllers
             }
             catch (Exception ex)
             {
-                return await Task.FromResult(BadRequest(ex.Message));
+                //return await Task.FromResult(BadRequest(ex.Message));
+                return await Task.FromResult(new JsonResult(ex.Message));
             }
             
         }

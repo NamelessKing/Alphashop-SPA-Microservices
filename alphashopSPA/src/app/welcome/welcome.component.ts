@@ -28,7 +28,8 @@ export class WelcomeComponent implements OnInit {
 
   welcomeRequest() {
     this.welcomeDataService.welcomeRequest(this.username).subscribe(
-      response => this.message = response.toString()
+      (data) => { this.message = data; },
+      (err) => { this.message = err; }
     );
 
   }

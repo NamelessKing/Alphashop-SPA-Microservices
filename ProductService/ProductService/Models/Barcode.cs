@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductService.Models
 {
+    [Table("Barcode")]
     public class Barcode
     {
         [Key]

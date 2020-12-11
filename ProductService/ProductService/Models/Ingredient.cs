@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductService.Models
 {
+    [Table("Ingredienti")]
     public class Ingredient
     {
 

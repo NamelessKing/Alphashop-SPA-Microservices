@@ -11,18 +11,18 @@ namespace ProductService.Data.Repositories
     public class ArticleRepository : IArticleRepository
     {
 
-        private DataContext Context { get; }
+        private DataContext dbContext { get; }
 
         public ArticleRepository(DataContext context)
         {
-            Context = context;
+            dbContext = context;
         }
 
-        public Task<bool> ArticleExixts(string articleId)
+        public async Task<bool> ArticleExixts(string articleId)
         {
-            throw new NotImplementedException();
+            return await dbContext.Articles.AnyAsync(article => article.ArticleId == articleId);
         }
-
+        
         public Task<Article> CreateArticle(Article article)
         {
             throw new NotImplementedException();
@@ -35,18 +35,18 @@ namespace ProductService.Data.Repositories
 
         public async Task<ICollection<Article>> GetAllArticles()
         {
-            return await Context.Articles.ToListAsync();
+            return await dbContext.Articles.ToListAsync();
             //throw new NotImplementedException();
         }
 
-        public Task<Article> GetArticleByArticleId(string articleId)
+        public async Task<Article> GetArticleByArticleId(string articleId)
         {
-            throw new NotImplementedException();
+            return await dbContext.Articles.FindAsync(articleId);
         }
 
-        public Task<ICollection<Article>> GetArticlesByDescription(string description)
+        public async Task<ICollection<Article>> GetArticlesByDescription(string description)
         {
-            throw new NotImplementedException();
+            return await dbContext.Articles.Where(x => x.Descrizione.Contains(description)).ToListAsync();
         }
 
         public Task<bool> SaveChanges()

@@ -5,6 +5,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201216131052_Updates.cs" />
+    <Compile Remove="Migrations\20201216131052_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201216132728_Updates.cs" />
+    <Compile Remove="Migrations\20201216132728_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217101043_Updates.cs" />
+    <Compile Remove="Migrations\20201217101043_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217101136_Updates.cs" />
+    <Compile Remove="Migrations\20201217101136_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217101422_Updates.cs" />
+    <Compile Remove="Migrations\20201217101422_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217102933_Updates.cs" />
+    <Compile Remove="Migrations\20201217102933_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217103115_Updates.cs" />
+    <Compile Remove="Migrations\20201217103115_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217103246_Updates.cs" />
+    <Compile Remove="Migrations\20201217103246_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217103608_Updates.cs" />
+    <Compile Remove="Migrations\20201217103608_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217105007_Updates.cs" />
+    <Compile Remove="Migrations\20201217105007_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217105820_Updates.cs" />
+    <Compile Remove="Migrations\20201217105820_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217110759_Updates.cs" />
+    <Compile Remove="Migrations\20201217110759_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217111001_Updates.cs" />
+    <Compile Remove="Migrations\20201217111001_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217111301_Updates.cs" />
+    <Compile Remove="Migrations\20201217111301_Updates.Designer.cs" />
+    <Compile Remove="Migrations\20201217113254_Updates.cs" />
+    <Compile Remove="Migrations\20201217113254_Updates.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">

@@ -11,15 +11,18 @@ namespace ProductService.Models
     public class Barcode
     {
         [Key]
-        [StringLength(13, MinimumLength =8, ErrorMessage = "Il Barcode deve avere da 8 a 13 cifre")]
+        [StringLength(13, MinimumLength = 8, ErrorMessage = "Il Barcode deve avere da 8 a 13 cifre")]
         [Column("Barcode")]
         public string BarcodeId { get; set; }
         [Required]
         public string IdTipoArt { get; set; }
 
+        [MinLength(5, ErrorMessage = "Il numero minimo di caratteri è 5")]
+        [MaxLength(30, ErrorMessage = "Il numero massimo di caratteri è 30")]
+        [ForeignKey("ArticleId")]
         [Column("CodArt")]
-        public string ArticleId { get; set; }
-        public virtual Article Article { get; set; }
+        public string? ArticleId { get; set; }
+        public Article Article { get; set; }
 
     }
 }

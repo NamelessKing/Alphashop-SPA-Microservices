@@ -35,7 +35,7 @@ namespace ProductService.Data.Repositories
 
         public async Task<ICollection<Article>> GetAllArticles()
         {
-            return await dbContext.Articles.ToListAsync();
+            return await dbContext.Articles.Include( x =>x.Barcodes).ToListAsync();
             //throw new NotImplementedException();
         }
 

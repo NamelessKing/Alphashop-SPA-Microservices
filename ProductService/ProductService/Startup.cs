@@ -32,6 +32,7 @@ namespace ProductService
 
             // REPOSITORIES
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IBarcodeRepository, BarcodeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -18,7 +18,17 @@ namespace ProductService.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<Barcode>()
+            //    .HasOne(b => b.Article)
+            //    .WithMany(a => a.Barcodes)
+            //    .HasForeignKey(b => b.ArticleId);
+            modelBuilder.Entity<Article>()
+                .HasMany(a => a.Barcodes)
+                .WithOne(b => b.Article);
+
+            modelBuilder.Entity<Barcode>()
+                .HasOne(b => b.Article)
+                .WithMany(a => a.Barcodes);
         }
     }
 }

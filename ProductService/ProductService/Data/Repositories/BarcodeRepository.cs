@@ -1,4 +1,5 @@
-﻿using ProductService.Data.RepositoryContracts;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductService.Data.RepositoryContracts;
 using ProductService.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,8 @@ namespace ProductService.Data.Repositories
         }
         public async Task<Barcode> GetBarcodeByBarcodeId(string barcodeId)
         {
-            return await DbContext.Barcodes.FindAsync(barcodeId);
+            return await DbContext.Barcodes.Include(x => x.Article).FirstOrDefaultAsync(b => b.BarcodeId == barcodeId);
+            //return await DbContext.Barcodes.
         }
     }
 }

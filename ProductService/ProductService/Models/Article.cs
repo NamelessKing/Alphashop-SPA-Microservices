@@ -32,7 +32,7 @@ namespace ProductService.Models
         //public string IdStatoArt { get; set; }
         public DateTime? DataCreazione { get; set; }
 
-        public virtual ICollection<Barcode> Barcodes { get; set; }
+        public ICollection<Barcode> Barcodes { get; set; }
         public virtual Ingredient Ingredient { get; set; }
 
         /// <summary>

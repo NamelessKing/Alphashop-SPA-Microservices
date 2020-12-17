@@ -69,7 +69,7 @@ namespace ProductService.Controllers
 
         [HttpGet("description/{description}")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(ICollection<Article>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<ArticleDto>))]
         public async Task<IActionResult> GetArticlesByDescription(string description)
         {
 
@@ -88,6 +88,10 @@ namespace ProductService.Controllers
             return Ok(articlesDto);
         }
 
+        [HttpGet("barcodeId/{barcodeId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(ArticleDto))]
         public async Task<IActionResult> GetArticleByBarcodeId(string barcodeId)
         {
             var barcode = await BarcodeRepository.GetBarcodeByBarcodeId(barcodeId);
@@ -95,25 +99,42 @@ namespace ProductService.Controllers
             if (barcode == null)
                 return NotFound($"Non è stato trovato alcun barcode con id '{barcode}'");
 
-            return await GetArticleByArticleId(barcode.ArticleId);
+            if (barcode.Article == null)
+                return BadRequest($"Il barcode con id '{barcodeId}' non è colegato a nessun articolo  ''");
+
+            return Ok(MapArticleToArticleDto(barcode.Article));
+        }
+
+        private ArticleDto MapArticleToArticleDto(Article article)
+        {
+            return new ArticleDto()
+            {
+                ArticleId = article.ArticleId,
+                CodStat = article.CodStat,
+                DataCreazione = article.DataCreazione,
+                Descrizione = article.Descrizione,
+                PesoNetto = article.PesoNetto,
+                PzCart = article.PzCart,
+                Um = article.Um
+            };
         }
 
         private List<ArticleDto> MapArticlesToArticlesDto(List<Article> articles)
         {
             var articlesDto = new List<ArticleDto>();
 
-            articles.ForEach(artcleDto =>
+            articles.ForEach(article =>
             {
                 articlesDto.Add(
                     new ArticleDto()
                     {
-                        ArticleId = artcleDto.ArticleId,
-                        CodStat = artcleDto.CodStat,
-                        DataCreazione = artcleDto.DataCreazione,
-                        Descrizione = artcleDto.Descrizione,
-                        PesoNetto = artcleDto.PesoNetto,
-                        PzCart = artcleDto.PzCart,
-                        Um = artcleDto.Um
+                        ArticleId = article.ArticleId,
+                        CodStat = article.CodStat,
+                        DataCreazione = article.DataCreazione,
+                        Descrizione = article.Descrizione,
+                        PesoNetto = article.PesoNetto,
+                        PzCart = article.PzCart,
+                        Um = article.Um
                     });
             });
             return articlesDto;

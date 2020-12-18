@@ -2,6 +2,7 @@
 using ProductService.Data.RepositoryContracts;
 using ProductService.Dtos;
 using ProductService.Models;
+using ProductService.Models.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,14 +22,32 @@ namespace ProductService.Controllers
             BarcodeRepository = barcodeRepository;
         }
 
-        // GET: ArticleController
+        //GET: ArticleController
         [HttpGet]
         public async Task<IActionResult> GetAllArticles()
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var articles = (List<Article>)await ArticleRepository.GetAllArticles();
+            var articles = (List<Article>)await ArticleRepository.GetAllArticles<IEntity>();
+
+            if (articles.Count == 0)
+            {
+                return NotFound($"Non è stato trovato alcun articolo.");
+            }
+
+            var articlesDto = MapArticlesToArticlesDto(articles);
+
+            return Ok(articlesDto);
+        }
+
+        [HttpGet("withBarcodes")]
+        public async Task<IActionResult> GetAllArticlesIncludedBarcodes()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var articles = (List<Article>)await ArticleRepository.GetAllArticles( x => x.Barcodes);
 
             if (articles.Count == 0)
             {
@@ -49,22 +68,13 @@ namespace ProductService.Controllers
         {
             var article = await ArticleRepository.GetArticleByArticleId(articleId);
 
-            if (article != null)
+            if (article == null)
             {
-                var artcleDto = new ArticleDto()
-                {
-                    ArticleId = article.ArticleId,
-                    CodStat = article.CodStat,
-                    DataCreazione = article.DataCreazione,
-                    Descrizione = article.Descrizione,
-                    PesoNetto = article.PesoNetto,
-                    PzCart = article.PzCart,
-                    Um = article.Um
-                };
-                return Ok(artcleDto);
+                return NotFound($"Non è stato trovato alcun articolo con ID '{articleId}'");
             }
 
-            return NotFound($"Non è stato trovato alcun articolo con ID '{articleId}'");
+            var artcleDto = MapArticleToArticleDto(article);
+            return Ok(artcleDto);
         }
 
         [HttpGet("description/{description}")]
@@ -100,7 +110,7 @@ namespace ProductService.Controllers
                 return NotFound($"Non è stato trovato alcun barcode con id '{barcode}'");
 
             if (barcode.Article == null)
-                return BadRequest($"Il barcode con id '{barcodeId}' non è colegato a nessun articolo  ''");
+                return BadRequest($"Il barcode con id '{barcodeId}' non è colegato a nessun articolo");
 
             return Ok(MapArticleToArticleDto(barcode.Article));
         }
@@ -115,7 +125,8 @@ namespace ProductService.Controllers
                 Descrizione = article.Descrizione,
                 PesoNetto = article.PesoNetto,
                 PzCart = article.PzCart,
-                Um = article.Um
+                Um = article.Um,
+                Barcodes = article.Barcodes
             };
         }
 
@@ -134,7 +145,8 @@ namespace ProductService.Controllers
                         Descrizione = article.Descrizione,
                         PesoNetto = article.PesoNetto,
                         PzCart = article.PzCart,
-                        Um = article.Um
+                        Um = article.Um,
+                        Barcodes = article.Barcodes
                     });
             });
             return articlesDto;

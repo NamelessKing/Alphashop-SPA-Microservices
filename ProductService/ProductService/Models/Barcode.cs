@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductService.Models.Contracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace ProductService.Models
 {
     [Table("Barcode")]
-    public class Barcode
+    public class Barcode : IEntity
     {
         [Key]
         [StringLength(13, MinimumLength = 8, ErrorMessage = "Il Barcode deve avere da 8 a 13 cifre")]

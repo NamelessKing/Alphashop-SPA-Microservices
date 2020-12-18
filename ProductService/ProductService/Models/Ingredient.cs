@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductService.Models.Contracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace ProductService.Models
 {
     [Table("Ingredienti")]
-    public class Ingredient
+    public class Ingredient : IEntity
     {
 
         public string Info { get; set; }

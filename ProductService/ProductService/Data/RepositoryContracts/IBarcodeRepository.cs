@@ -9,6 +9,7 @@ namespace ProductService.Data.RepositoryContracts
     public interface IBarcodeRepository
     {
         Task<Barcode> GetBarcodeByBarcodeId(string barcodeId);
+        Task<Barcode> GetBarcodeByBarcodeIdWithArticle(string barcodeId);
 
     }
 }

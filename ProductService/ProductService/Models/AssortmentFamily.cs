@@ -16,6 +16,6 @@ namespace ProductService.Models
         public int AssortmentFamilyId { get; set; }
         public string Descrizione { get; set; }
 
-        public virtual ICollection<Article> Articoli { get; set; }
+        public virtual ICollection<Article> Articoli { get; set; } = new List<Article>();
     }
 }

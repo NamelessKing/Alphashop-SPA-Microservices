@@ -38,7 +38,7 @@ namespace ProductService.Data.Repositories
         }
 
 
-        public async Task<ICollection<Article>> GetAllArticles<T>(params Expression<Func<Article, ICollection<T>>>[] includes) where T : IEntity
+        public async Task<ICollection<Article>> GetAllArticles<T>(params Expression<Func<Article, T>>[] includes) where T : class
         {
             IQueryable<Article> query = dbContext.Articles;
 
@@ -73,14 +73,24 @@ namespace ProductService.Data.Repositories
         //    return await query.ToListAsync();
         //}
 
-        public async Task<Article> GetArticleByArticleId(string articleId)
+        public async Task<Article> GetArticleByArticleId<T>(string articleId, params Expression<Func<Article, T>>[] includes) where T : class
         {
-            return await dbContext.Articles.FindAsync(articleId);
+            IQueryable<Article> query = dbContext.Articles;
+
+            query = includes.Aggregate(query,
+                (current, includeproperty) => current.Include(includeproperty));
+
+            return await query.FirstOrDefaultAsync(article => article.ArticleId == articleId);
         }
 
-        public async Task<ICollection<Article>> GetArticlesByDescription(string description)
+        public async Task<ICollection<Article>> GetArticlesByDescription<T>(string description, params Expression<Func<Article, T>>[] includes) where T : class
         {
-            return await dbContext.Articles.Where(x => x.Descrizione.Contains(description)).ToListAsync();
+            IQueryable<Article> query = dbContext.Articles.Where(x => x.Descrizione.Contains(description));
+
+            query = includes.Aggregate(query,
+                (current, includeproperty) => current.Include(includeproperty));
+
+            return await query.ToListAsync();
         }
 
         public Task<bool> SaveChanges()

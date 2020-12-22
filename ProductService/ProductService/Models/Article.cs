@@ -33,7 +33,7 @@ namespace ProductService.Models
         //public string IdStatoArt { get; set; }
         public DateTime? DataCreazione { get; set; }
 
-        public ICollection<Barcode> Barcodes { get; set; }
+        public ICollection<Barcode> Barcodes { get; set; } = new List<Barcode>();   
         public virtual Ingredient Ingredient { get; set; }
 
         /// <summary>

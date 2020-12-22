@@ -18,6 +18,12 @@ namespace ProductService.Data.Repositories
         }
         public async Task<Barcode> GetBarcodeByBarcodeId(string barcodeId)
         {
+            //return await DbContext.Barcodes.Include(x => x.Article).FirstOrDefaultAsync(b => b.BarcodeId == barcodeId);
+            return await DbContext.Barcodes.FindAsync(barcodeId);
+        }
+
+        public async Task<Barcode> GetBarcodeByBarcodeIdWithArticle(string barcodeId)
+        {
             return await DbContext.Barcodes.Include(x => x.Article).FirstOrDefaultAsync(b => b.BarcodeId == barcodeId);
             //return await DbContext.Barcodes.
         }

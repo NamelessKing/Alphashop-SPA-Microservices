@@ -16,9 +16,9 @@ namespace ProductService.Models
         public int IvaId { get; set; }
         public string Descrizione { get; set; }
         [Required]
-        public Int16 Aliquota { get; set; }
+        public short Aliquota { get; set; }
 
-        public ICollection<Article> Articles { get; set; }
+        public ICollection<Article> Articles { get; set; } = new List<Article>();
 
     }
 }

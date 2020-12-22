@@ -10,9 +10,9 @@ namespace ProductService.Data.RepositoryContracts
 {
     public interface IArticleRepository
     {
-        Task<ICollection<Article>> GetArticlesByDescription(string description);
-        Task<ICollection<Article>> GetAllArticles<T>(params Expression<Func<Article, ICollection<T>>>[] includes) where T : IEntity;
-        Task<Article> GetArticleByArticleId(string articleId);
+        Task<ICollection<Article>> GetArticlesByDescription<T>(string description, params Expression<Func<Article, T>>[] includes) where T : class;
+        Task<ICollection<Article>> GetAllArticles<T>(params Expression<Func<Article, T>>[] includes) where T : class;
+        Task<Article> GetArticleByArticleId<T>(string articleId, params Expression<Func<Article, T>>[] includes) where T : class;
         //Task<Article> GetArticleByBarcodeId(string articleId);
         Task<Article> CreateArticle(Article article);
         Task<Article> UpdateArticle(Article article);

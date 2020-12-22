@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProductService.Dtos
 {
-    public class BarcodeDto : IDto
+    public class IvaDto : IDto
     {
-        public string BarcodeId { get; set; }
-        public string IdTipoArt { get; set; }
-
+        public string Descrizione { get; set; }
+        public short Aliquota { get; set; }
     }
 }

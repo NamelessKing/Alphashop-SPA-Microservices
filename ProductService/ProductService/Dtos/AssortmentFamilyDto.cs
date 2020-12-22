@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProductService.Dtos
 {
-    public class BarcodeDto : IDto
+    public class AssortmentFamilyDto : IDto
     {
-        public string BarcodeId { get; set; }
-        public string IdTipoArt { get; set; }
-
+        public int AssortmentFamilyId { get; set; }
+        public string Descrizione { get; set; }
     }
 }

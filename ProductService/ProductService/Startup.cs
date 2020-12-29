@@ -8,10 +8,6 @@ using Microsoft.Extensions.Hosting;
 using ProductService.Data;
 using ProductService.Data.Repositories;
 using ProductService.Data.RepositoryContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProductService
 {

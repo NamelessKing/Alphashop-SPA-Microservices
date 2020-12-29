@@ -165,6 +165,9 @@ namespace ProductService.Controllers
 
         private ArticleDto MapArticleToArticleDto(Article article)
         {
+            if (article == null)
+                return null;
+
             return new ArticleDto()
             {
                 ArticleId = article.ArticleId,
@@ -177,8 +180,8 @@ namespace ProductService.Controllers
                 Barcodes = MapBarcodesToBarcodeDtos(article.Barcodes),
                 Ingredient = MapIngredientToIngredientDto(article.Ingredient),
                 AssortmentFamily = MapAssortmentFamilyToAssortmentFamilyDto(article.AssortmentFamily),
-                Iva = MapIvaToIvaDto(article.Iva)
-
+                Iva = MapIvaToIvaDto(article.Iva),
+                ArticleStateId = article.ArticleStateId
             };
         }
 
@@ -236,15 +239,22 @@ namespace ProductService.Controllers
 
             ((List<Barcode>)barcodes).ForEach(barcode =>
             {
-                barcodeDtos.Add(new BarcodeDto()
-                {
-                    BarcodeId = barcode.BarcodeId,
-                    IdTipoArt = barcode.IdTipoArt
-                });
+                barcodeDtos.Add(MapBarcodeToBarcodeDto(barcode));
             });
 
             return barcodeDtos;
         }
 
+        private BarcodeDto MapBarcodeToBarcodeDto(Barcode barcode)
+        {
+            if (barcode == null)
+                return null;
+
+            return new BarcodeDto()
+            {
+                BarcodeId = barcode.BarcodeId,
+                IdTipoArt = barcode.IdTipoArt
+            };
+        }
     }
 }

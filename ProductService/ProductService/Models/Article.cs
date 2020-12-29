@@ -24,7 +24,7 @@ namespace ProductService.Models
         public string CodStat { get; set; }
 
         [Range(0, 100, ErrorMessage = "I pezzi per cartone devono essere compresi fra 0 e 100")]
-        public Int16? PzCart { get; set; }
+        public short? PzCart { get; set; }
 
         [Range(0.01, 100, ErrorMessage = "Il peso deve essere compre fra 0.01 e 100")]
         public double? PesoNetto { get; set; }
@@ -51,7 +51,6 @@ namespace ProductService.Models
         [Column("IDFAMASS")]
         public int? AssortmentFamilyId { get; set; }
         public AssortmentFamily AssortmentFamily { get; set; }
-
-
+        public string ArticleStateId { get; set; }
     }
 }

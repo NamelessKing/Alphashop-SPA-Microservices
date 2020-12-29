@@ -26,6 +26,9 @@ namespace ProductService.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
+                    b.Property<string>("ArticleStateId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("AssortmentFamilyId")
                         .HasColumnName("IDFAMASS")
                         .HasColumnType("int");
@@ -87,7 +90,8 @@ namespace ProductService.Migrations
 
                     b.Property<string>("ArticleId")
                         .HasColumnName("CodArt")
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.Property<string>("IdTipoArt")
                         .IsRequired()

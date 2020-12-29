@@ -20,5 +20,6 @@ namespace ProductService.Dtos
         public IvaDto Iva { get; set; }
         public IngredientDto Ingredient { get; set; }
         public AssortmentFamilyDto AssortmentFamily { get; set; }
+        public string ArticleStateId { get; set; }
     }
 }

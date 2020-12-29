@@ -1,6 +1,6 @@
 <app-jumbotron [Title]="'Articoli disponibili'" [SubTitle]="'Alimentari'"></app-jumbotron>
 
-<table id="articoli" border="1">
+<!-- <table id="articoli" border="1">
   <thead>
     <tr>
       <th>Codart</th>
@@ -26,4 +26,41 @@
       <td>{{item.date | date}}</td>
     </tr>
   </tbody>
-</table>
+</table> -->
+<section class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-6">
+      <h3 class="page-title">Risultati Ricerca: <small>Trovati {{numberOfArticles}} Articoli</small></h3>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <a href="" style="margin-left: 20px;" class="btn btn-success float-right">Nuovo Articolo</a>
+    </div>
+    <table id="articoli" class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>CodArt</th>
+          <th>Descrizione</th>
+          <th>Um</th>
+          <th>Pezzi</th>
+          <th>Peso(KG/LT)</th>
+          <th>Prezzo</th>
+          <th>Attivo</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let article of articles | paginate: {itemsPerPage: articlesPerPage, currentPage: page}">
+            <td>{{article.articleId}}</td>
+            <td class="text-left">{{article.descrizione}}</td>
+            <td>{{article.um}}</td>
+            <td>{{article.pzCart}}</td>
+            <td>{{article.pesoNetto}}</td>
+            <td class="text-right">{{article.prezzo | currency:'EUR'}}</td>
+            <td>{{article.isActive}}</td>
+            <td>{{article.dataCreazione | date}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange) = "page = $event"  previousLabel = "Precedente" nextLabel = "Successivo"></pagination-controls>
+  </div>
+</section>

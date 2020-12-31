@@ -1,32 +1,5 @@
-<app-jumbotron [Title]="'Articoli disponibili'" [SubTitle]="'Alimentari'"></app-jumbotron>
+<!-- <app-jumbotron [Title]="'Articoli disponibili'" [SubTitle]="'Alimentari'"></app-jumbotron>
 
-<!-- <table id="articoli" border="1">
-  <thead>
-    <tr>
-      <th>Codart</th>
-      <th>Descrizione</th>
-      <th>Um</th>
-      <th>Pezzi</th>
-      <th>Peso</th>
-      <th>Prezzo</th>
-      <th>Attivo</th>
-      <th>Data</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr *ngFor='let item of items'>
-      <td>{{item.codart}}</td>
-      <td>{{item.descrizione}}</td>
-      <td>{{item.um}}</td>
-      <td>{{item.pzcart}}</td>
-      <td>{{item.peso}}</td>
-      <td>{{item.prezzo}}</td>
-      <td>{{item.isActive}}</td>
-      <td>{{item.date | date}}</td>
-    </tr>
-  </tbody>
-</table> -->
 <section class="container">
   <div class="row">
     <div class="col-md-6 col-sm-6">
@@ -63,4 +36,84 @@
     </table>
     <pagination-controls (pageChange) = "page = $event"  previousLabel = "Precedente" nextLabel = "Successivo"></pagination-controls>
   </div>
+</section> -->
+
+
+<app-jumbotron [Title]="'Ricerca Articoli'" [SubTitle]="'Ricerca gli articoli per descrizione o codice'" [Show]="false"></app-jumbotron>
+
+<section class="container">
+<div class="table-wrapper">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-5">
+              <h2>Risultati Ricerca: <small>Trovati {{numberOfArticles}} Articoli</small></h2>
+            </div>
+            <div class="col-sm-7">
+
+            </div>
+        </div>
+    </div>
+    <div class="table-filter">
+      	<div class="row">
+            <div class="col-sm-3">
+                <div class="show-entries">
+                  <span>Mostra</span>
+                  <select class="form-control">
+                      <option>10</option>
+                      <option>15</option>
+                      <option>20</option>
+                      <option>50</option>
+                  </select>
+                  <span>righe</span>
+                </div>
+            </div>
+            <div class="col-sm-9">
+              <button type="button" (click) = "getArticles(filter)" class="btn btn-primary"><i><span class="oi oi-magnifying-glass"></span></i></button>
+              <div class="filter-group">
+                  <label>Filtro: </label>
+                  <input type="text" class="form-control" [(ngModel)] = "filter">
+                  <h1>{{filter}}</h1>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <p *ngIf="!articles"><em>Loading...</em></p>
+
+    <div [hidden]="!articles">
+      <table id="articoli" class="table table-striped table-bordered table-hover" >
+        <thead>
+          <tr>
+            <th>CodArt</th>
+            <th>Descrizione</th>
+            <th>Um</th>
+            <th>Pezzi</th>
+            <th>Peso(KG/LT)</th>
+            <th>Prezzo</th>
+            <th>Attivo</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of articles | paginate: {itemsPerPage: articlesPerPage, currentPage: page}">
+              <td>{{article.articleId}}</td>
+              <td class="text-left">{{article.descrizione}}</td>
+              <td>{{article.um}}</td>
+              <td>{{article.pzCart}}</td>
+              <td>{{article.pesoNetto}}</td>
+              <td class="text-right">{{article.prezzo | currency:'EUR'}}</td>
+              <td>{{article.isActive}}</td>
+              <td>{{article.dataCreazione | date}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <pagination-controls
+        (pageChange)="page = $event"
+        previousLabel="Precedente"
+        nextLabel="Successivo">
+        </pagination-controls>
+      </div>
+    </div>
+</div>
 </section>

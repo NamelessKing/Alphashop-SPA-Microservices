@@ -1,5 +1,5 @@
 import { Article } from './../../../articoli/articoli.component';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,16 +13,19 @@ export class ArticleService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public GetArticlesByDescription(description: string): Observable<Article[]> {
-
-      return this.httpClient.get<Article[]>(`${ArticleService.BASE_URL}/description/${description}`)
-        .pipe(catchError(this.handleError));
+  public async getArticlesByDescription(description: string): Promise<Observable<Article[]>> {
+    return this.httpClient.get<Article[]>(`${ArticleService.BASE_URL}/description/${description}`)
+      .pipe(catchError(this.handleError));
   }
 
-  public async GetAllArticles(): Promise<Observable<Article[]>> {
+  public async getAllArticles(): Promise<Observable<Article[]>> {
+    return this.httpClient.get<Article[]>(`${ArticleService.BASE_URL}`)
+      .pipe(catchError(this.handleError));
+  }
 
-      return await this.httpClient.get<Article[]>(`${ArticleService.BASE_URL}`)
-        .pipe(catchError(this.handleError));
+  public async getArticleByArticleId(articleId: string): Promise<Observable<Article>> {
+    return this.httpClient.get<Article>(`${ArticleService.BASE_URL}/articleid/${articleId}`)
+      .pipe(catchError(this.handleError));
   }
 
   handleError(error: any) {

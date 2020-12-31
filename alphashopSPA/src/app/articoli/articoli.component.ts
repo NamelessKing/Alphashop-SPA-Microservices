@@ -1,5 +1,9 @@
+import { async } from '@angular/core/testing';
 import { ArticleService } from './../services/data/productService/article.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-articoli',
@@ -21,21 +25,46 @@ export class ArticoliComponent implements OnInit {
   numberOfArticles = 0;
   page = 1;
   articlesPerPage = 1;
-  message: any;
+  //message: any;
+
+  filter = '';
 
 
-  constructor(private articleService: ArticleService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private articleService: ArticleService) { }
 
-  async ngOnInit() {
-     (await this.articleService.GetAllArticles()).subscribe(
+  ngOnInit() {
+    this.getArticles();
+  }
+
+  public async getArticles(filter?: string | undefined): Promise<void> {
+
+    let articlesObservable: Observable<Article[]>;
+    if (this.isEmpty(filter)) {
+      articlesObservable = await this.articleService.getAllArticles();
+    } else {
+      articlesObservable = await this.articleService.getArticlesByDescription(filter);
+    }
+
+    articlesObservable.subscribe(
       (data) => {
         console.log(data);
         this.articles = data;
-        this.numberOfArticles =  this.articles.length;
+        this.numberOfArticles = this.articles.length;
       },
-      (err) => { this.message = err; }
+      (err) => { console.log(err); this.articles = null; }
     );
+  }
 
+  public async getArticleByArticleId(articleId: string) {
+    
+  }
+
+
+
+  private isEmpty(str: string): boolean {
+    return (!str || 0 === str.length);
   }
 
 }
@@ -51,5 +80,5 @@ export class Article {
     public prezzo: number,
     public isActive: boolean,
     public dataCreazione: Date
-  ) {}
+  ) { }
 }

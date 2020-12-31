@@ -34,7 +34,7 @@ namespace ProductService.Controllers
 
             if (articles.Count == 0)
             {
-                return NotFound($"Non è stato trovato alcun articolo.");
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun articolo.",HttpContext.Response.StatusCode.ToString()));
             }
 
             var articlesDto = MapArticlesToArticleDtos(articles);
@@ -42,6 +42,26 @@ namespace ProductService.Controllers
             return Ok(articlesDto);
         }
 
+        [HttpGet("description/{description}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(ICollection<ArticleDto>))]
+        public async Task<IActionResult> GetArticlesByDescription(string description)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var articles = await ArticleRepository.GetArticlesByDescription<IEntity>(description);
+
+            if (articles.Count == 0)
+            {
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun articolo con il filtro '{description}'", HttpContext.Response.StatusCode.ToString()));
+            }
+
+            ICollection<ArticleDto> articlesDto = MapArticlesToArticleDtos(articles);
+
+            return Ok(articlesDto);
+        }
 
         [HttpGet("withAllProperties")]
         public async Task<IActionResult> GetAllArticlesWithAllProperties()
@@ -58,7 +78,7 @@ namespace ProductService.Controllers
 
             if (articles.Count == 0)
             {
-                return NotFound($"Non è stato trovato alcun articolo.");
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun articolo.", HttpContext.Response.StatusCode.ToString()));
             }
 
             var articlesDto = MapArticlesToArticleDtos(articles);
@@ -77,7 +97,7 @@ namespace ProductService.Controllers
 
             if (articles.Count == 0)
             {
-                return NotFound($"Non è stato trovato alcun articolo.");
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun articolo.", HttpContext.Response.StatusCode.ToString()));
             }
 
             var articlesDto = MapArticlesToArticleDtos(articles);
@@ -96,7 +116,7 @@ namespace ProductService.Controllers
 
             if (article == null)
             {
-                return NotFound($"Non è stato trovato alcun articolo con ID '{articleId}'");
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun articolo con ID '{articleId}'", HttpContext.Response.StatusCode.ToString()));
             }
 
             var artcleDto = MapArticleToArticleDto(article);
@@ -118,33 +138,14 @@ namespace ProductService.Controllers
 
             if (article == null)
             {
-                return NotFound($"Non è stato trovato alcun articolo con ID '{articleId}'");
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun articolo con ID '{articleId}'", HttpContext.Response.StatusCode.ToString()));
             }
 
             var artcleDto = MapArticleToArticleDto(article);
             return Ok(artcleDto);
         }
 
-        [HttpGet("description/{description}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(ICollection<ArticleDto>))]
-        public async Task<IActionResult> GetArticlesByDescription(string description)
-        {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var articles = await ArticleRepository.GetArticlesByDescription<IEntity>(description);
-
-            if (articles.Count == 0)
-            {
-                return NotFound($"Non è stato trovato alcun articolo con il filtro '{description}'");
-            }
-
-            ICollection<ArticleDto> articlesDto = MapArticlesToArticleDtos(articles);
-
-            return Ok(articlesDto);
-        }
+        
 
         [HttpGet("barcodeId/{barcodeId}")]
         [ProducesResponseType(400)]
@@ -155,10 +156,10 @@ namespace ProductService.Controllers
             var barcode = await BarcodeRepository.GetBarcodeByBarcodeIdWithArticle(barcodeId);
 
             if (barcode == null)
-                return NotFound($"Non è stato trovato alcun barcode con id '{barcodeId}'");
+                return NotFound(new ErrorMessage($"Non è stato trovato alcun barcode con id '{barcodeId}'", HttpContext.Response.StatusCode.ToString()));
 
             if (barcode.Article == null)
-                return BadRequest($"Il barcode con id '{barcodeId}' non è colegato a nessun articolo");
+                return BadRequest(new ErrorMessage($"Il barcode con id '{barcodeId}' non è colegato a nessun articolo", HttpContext.Response.StatusCode.ToString()));
 
             return Ok(MapArticleToArticleDto(barcode.Article));
         }

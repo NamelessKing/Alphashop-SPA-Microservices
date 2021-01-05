@@ -29,6 +29,8 @@ export class ArticoliComponent implements OnInit {
 
   filter = '';
 
+  articleId = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -48,17 +50,35 @@ export class ArticoliComponent implements OnInit {
     }
 
     articlesObservable.subscribe(
-      (data) => {
-        console.log(data);
-        this.articles = data;
+      (articles) => {
+        console.log(articles);
+        this.articles = articles;
         this.numberOfArticles = this.articles.length;
       },
-      (err) => { console.log(err); this.articles = null; }
+      (err) => { console.log(err); this.articles = []; }
     );
   }
 
   public async getArticleByArticleId(articleId: string) {
-    
+    const regexpArticleId: RegExp = /([0-9])\w{5,8}/;
+
+    this.articles = [];
+    if (regexpArticleId.test(articleId)) {
+      const articleObservable: Observable<Article> = await this.articleService.getArticleByArticleId(articleId);
+
+      articleObservable.subscribe(
+        (article) => {
+          console.log(article);
+          this.articles.push(article);
+          this.numberOfArticles = this.articles.length;
+        },
+        (err) => { console.log(err); this.articles = []; }
+      );
+    } else {
+      console.log('ID non valido'); this.articles = [];
+    }
+
+
   }
 
 

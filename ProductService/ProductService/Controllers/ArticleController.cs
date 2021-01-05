@@ -110,7 +110,7 @@ namespace ProductService.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(ArticleDto))]
-        public async Task<IActionResult> GetArticleByArticleId(string articleId)
+        public async Task<ActionResult<ArticleDto>> GetArticleByArticleId(string articleId)
         {
             var article = await ArticleRepository.GetArticleByArticleId<IEntity>(articleId);
 
@@ -120,7 +120,7 @@ namespace ProductService.Controllers
             }
 
             var artcleDto = MapArticleToArticleDto(article);
-            return Ok(artcleDto);
+            return Ok(article);
         }
 
         [HttpGet("articleid/{articleId}/WithAllProperties")]
@@ -162,6 +162,84 @@ namespace ProductService.Controllers
                 return BadRequest(new ErrorMessage($"Il barcode con id '{barcodeId}' non è colegato a nessun articolo", HttpContext.Response.StatusCode.ToString()));
 
             return Ok(MapArticleToArticleDto(barcode.Article));
+        }
+
+        [HttpPost("create")]
+        [ProducesResponseType(201, Type = typeof(ArticleDto))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<ArticleDto>> CreateArticle([FromBody] Article article)
+        {
+            if (article == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isPresent = await ArticleRepository.ArticleExixts(article.ArticleId);
+
+            if (isPresent)
+            {
+                ModelState.AddModelError("",$"Impossibile creare l'articolo. Esiste già un articolo con id '{article.ArticleId}'");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                string error="";
+                foreach (var modelState in ModelState.Values)
+                {
+                    error =  string.Concat(modelState.Errors,"|");
+                }
+                return BadRequest(error);
+            }
+
+            var isCreated = await ArticleRepository.CreateArticle(article);
+
+            if (isCreated)
+            {
+                Article createdArticle = await ArticleRepository.GetArticleByArticleId<IEntity>(article.ArticleId);
+                return Ok(MapArticleToArticleDto(createdArticle));
+            }
+            else
+            {
+                ModelState.AddModelError("", $"Ci sono stati problemi a creare l'articolo con id '{article.ArticleId}'");
+                return StatusCode(500,ModelState);
+            }
+
+        }
+
+        [HttpPut("update")]
+        [ProducesResponseType(201, Type = typeof(InfoMessage))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<ArticleDto>> UpdateArticoli([FromBody] Article article )
+        {
+            var isPresent = await ArticleRepository.ArticleExixts(article.ArticleId);
+
+            if (!isPresent)
+            {
+                ModelState.AddModelError("", $"Articolo {article.ArticleId} NON presente in anagrafica! Impossibile utilizzare il metodo PUT!");
+                return StatusCode(422, ModelState);
+            }
+
+
+            //Verifichiamo che i dati siano corretti
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //verifichiamo che i dati siano stati regolarmente inseriti nel database
+            if (! await ArticleRepository.UpdateArticle(article))
+            {
+                ModelState.AddModelError("", $"Ci sono stati problemi nella modifica dell'Articolo {article.ArticleId}.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok(new InfoMessage(DateTime.Today, $"Modifica articolo {article.ArticleId} eseguita con successo!"));
+
         }
 
         private ArticleDto MapArticleToArticleDto(Article article)

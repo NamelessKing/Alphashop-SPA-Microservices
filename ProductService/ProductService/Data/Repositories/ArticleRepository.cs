@@ -24,19 +24,27 @@ namespace ProductService.Data.Repositories
 
         public async Task<bool> ArticleExixts(string articleId)
         {
-            return await dbContext.Articles.AnyAsync(article => article.ArticleId == articleId);
+            return await dbContext.Articles.AsNoTracking().AnyAsync(article => article.ArticleId == articleId);
         }
         
-        public Task<Article> CreateArticle(Article article)
+        public async Task<bool> CreateArticle(Article article)
         {
-            throw new NotImplementedException();
+            await dbContext.AddAsync(article);
+            return await SaveChanges();
         }
 
-        public Task<bool> DeleteArticle(Article article)
+        public async Task<bool> DeleteArticle(Article article)
         {
-            throw new NotImplementedException();
+            dbContext.Remove(article);
+            return await SaveChanges();
         }
 
+        public async Task<bool> UpdateArticle(Article article)
+        {
+            dbContext.Update(article);
+            //dbContext.Articles.Update(article);
+            return await SaveChanges();
+        }
 
         public async Task<ICollection<Article>> GetAllArticles<T>(params Expression<Func<Article, T>>[] includes) where T : class
         {
@@ -93,14 +101,10 @@ namespace ProductService.Data.Repositories
             return await query.ToListAsync();
         }
 
-        public Task<bool> SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Article> UpdateArticle(Article article)
-        {
-            throw new NotImplementedException();
+            var saved = await dbContext.SaveChangesAsync();
+            return saved >= 0;
         }
 
         

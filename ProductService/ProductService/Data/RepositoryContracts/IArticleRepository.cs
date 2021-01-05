@@ -14,8 +14,8 @@ namespace ProductService.Data.RepositoryContracts
         Task<ICollection<Article>> GetAllArticles<T>(params Expression<Func<Article, T>>[] includes) where T : class;
         Task<Article> GetArticleByArticleId<T>(string articleId, params Expression<Func<Article, T>>[] includes) where T : class;
         //Task<Article> GetArticleByBarcodeId(string articleId);
-        Task<Article> CreateArticle(Article article);
-        Task<Article> UpdateArticle(Article article);
+        Task<bool> CreateArticle(Article article);
+        Task<bool> UpdateArticle(Article article);
         Task<bool> DeleteArticle(Article article);
         Task<bool> ArticleExixts(string articleId);
 

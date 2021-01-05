@@ -68,12 +68,24 @@
                 </div>
             </div>
             <div class="col-sm-9">
-              <button type="button" (click) = "getArticles(filter)" class="btn btn-primary"><i><span class="oi oi-magnifying-glass"></span></i></button>
-              <div class="filter-group">
-                  <label>Filtro: </label>
-                  <input type="text" class="form-control" [(ngModel)] = "filter">
-                  <h1>{{filter}}</h1>
+              <div>
+                <button type="button" (click) = "getArticles(filter)" class="btn btn-primary"><i><span class="oi oi-magnifying-glass"></span></i></button>
+                <div class="filter-group">
+                    <label>Filtro: </label>
+                    <input type="text" class="form-control" [(ngModel)] = "filter">
+                    <!-- <h1>{{filter}}</h1> -->
+                </div>
               </div>
+
+              <div>
+                <button type="button" (click) = "getArticleByArticleId(articleId)" class="btn btn-primary"><i><span class="oi oi-magnifying-glass"></span></i></button>
+                <div class="filter-group">
+                    <label>ArticleId: </label>
+                    <input type="text" class="form-control" [(ngModel)] = "articleId">
+                    <!-- <h1>{{filter}}</h1> -->
+                </div>
+              </div>
+
             </div>
         </div>
     </div>

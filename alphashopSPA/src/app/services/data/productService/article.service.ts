@@ -10,6 +10,9 @@ import { catchError } from 'rxjs/operators';
 export class ArticleService {
 
   private static readonly BASE_URL = 'http://localhost:5000/api/article';
+  private static readonly SERVER = 'localhost';
+  private static readonly PORT = '5000';
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,6 +28,11 @@ export class ArticleService {
 
   public async getArticleByArticleId(articleId: string): Promise<Observable<Article>> {
     return this.httpClient.get<Article>(`${ArticleService.BASE_URL}/articleid/${articleId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  public async getArticleByBarcodeId(barcodeId: string) {
+    return this.httpClient.get<Article>(`${ArticleService.BASE_URL}/barcodeId/${barcodeId }`)
       .pipe(catchError(this.handleError));
   }
 

@@ -24,11 +24,7 @@ namespace ProductService.Data
             //    .HasForeignKey(b => b.ArticleId);
             modelBuilder.Entity<Article>()
                 .HasMany(a => a.Barcodes)
-                .WithOne(b => b.Article);
-
-            modelBuilder.Entity<Barcode>()
-                .HasOne(b => b.Article)
-                .WithMany(a => a.Barcodes);
+                .WithOne(b => b.Article).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

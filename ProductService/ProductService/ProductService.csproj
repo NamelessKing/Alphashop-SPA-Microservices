@@ -37,9 +37,14 @@
     <Compile Remove="Migrations\20201217113254_Updates.Designer.cs" />
     <Compile Remove="Migrations\20201222160739_Update.cs" />
     <Compile Remove="Migrations\20201222160739_Update.Designer.cs" />
+    <Compile Remove="Migrations\20210108135642_test.cs" />
+    <Compile Remove="Migrations\20210108135642_test.Designer.cs" />
+    <Compile Remove="Migrations\20210108142336_test.cs" />
+    <Compile Remove="Migrations\20210108142336_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />

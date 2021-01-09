@@ -6,6 +6,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NewArticleComponent } from './new-article/new-article.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'welcome/:username', component: WelcomeComponent, canActivate: [RouteGuardService] },
   { path: 'articoli', component: ArticoliComponent, canActivate: [RouteGuardService] },
-  { path: 'articoli/:filter', component: ArticoliComponent, canActivate: [RouteGuardService]  },
+  { path: 'articoli/:filter', component: ArticoliComponent, canActivate: [RouteGuardService] },
+  { path: 'new-article/:articleId', component: NewArticleComponent, canActivate: [RouteGuardService] },
   { path: 'logout', component: LogoutComponent },
   { path: '**', component: ErrorComponent },
 ];

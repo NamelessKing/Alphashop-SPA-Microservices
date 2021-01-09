@@ -33,9 +33,9 @@ namespace ProductService.Data.Repositories
             return await SaveChanges();
         }
 
-        public async Task<bool> DeleteArticle(Article article)
+        public async Task<bool> DeleteArticleByArticleId(Article article)
         {
-            dbContext.Remove(article);
+            dbContext.Articles.Remove(article);
             return await SaveChanges();
         }
 

@@ -16,7 +16,7 @@ namespace ProductService.Data.RepositoryContracts
         //Task<Article> GetArticleByBarcodeId(string articleId);
         Task<bool> CreateArticle(Article article);
         Task<bool> UpdateArticle(Article article);
-        Task<bool> DeleteArticle(Article article);
+        Task<bool> DeleteArticleByArticleId(Article article);
         Task<bool> ArticleExixts(string articleId);
 
         Task<bool> SaveChanges();

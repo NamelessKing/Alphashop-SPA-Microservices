@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ProductService.Data.RepositoryContracts;
 using ProductService.Dtos;
 using ProductService.Models;
@@ -43,9 +44,10 @@ namespace ProductService.Controllers
         }
 
         [HttpGet("description/{description}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(ICollection<ArticleDto>))]
-        public async Task<IActionResult> GetArticlesByDescription(string description)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<ArticleDto>))]
+        public async Task<ActionResult<ICollection<ArticleDto>>> GetArticlesByDescription(string description)
         {
 
             if (!ModelState.IsValid)
@@ -240,6 +242,38 @@ namespace ProductService.Controllers
 
             return Ok(new InfoMessage(DateTime.Today, $"Modifica articolo {article.ArticleId} eseguita con successo!"));
 
+        }
+
+        [HttpDelete("delete/{articleId}")]
+        [ProducesResponseType(201, Type = typeof(InfoMessage))]
+        [ProducesResponseType(400, Type = typeof(ErrorMessage))]
+        [ProducesResponseType(422, Type = typeof(ErrorMessage))]
+        [ProducesResponseType(500, Type = typeof(ErrorMessage))]
+        public async Task<IActionResult> DeleteArticleByArticleIdAsync(string articleId)
+        {
+            if (string.IsNullOrWhiteSpace(articleId))
+            {
+                return BadRequest(new ErrorMessage($"E' necessario inserire il codice dell'articolo da eliminare!",
+                    HttpContext.Response.StatusCode.ToString()));
+            }
+
+            //Contolliamo se l'articolo è presente (Usare il metodo senza Traking)
+            var article = await ArticleRepository.GetArticleByArticleId<IEntity>(articleId);
+
+            if (article == null)
+            {
+                return StatusCode(422, new ErrorMessage($"Articolo {articleId} NON presente in anagrafica! Impossibile Eliminare!",
+                    "422"));
+            }
+
+            //verifichiamo che i dati siano stati regolarmente eliminati dal database
+            if (! await ArticleRepository.DeleteArticleByArticleId(article))
+            {
+                return StatusCode(500, new ErrorMessage($"Ci sono stati problemi nella eliminazione dell'Articolo {article.ArticleId}.",
+                    "500"));
+            }
+
+            return Ok(new InfoMessage(DateTime.Today, $"Eliminazione articolo {articleId} eseguita con successo!"));
         }
 
         private ArticleDto MapArticleToArticleDto(Article article)

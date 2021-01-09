@@ -1,4 +1,4 @@
-import { Article } from './../../../articoli/articoli.component';
+import { Article, ApiMessage } from './../../../articoli/articoli.component';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -33,6 +33,11 @@ export class ArticleService {
 
   public async getArticleByBarcodeId(barcodeId: string) {
     return this.httpClient.get<Article>(`${ArticleService.BASE_URL}/barcodeId/${barcodeId }`)
+      .pipe(catchError(this.handleError));
+  }
+
+  public async deleteArticleByArticleId(articleId: string) {
+    return this.httpClient.delete<ApiMessage>(`${ArticleService.BASE_URL}/delete/${articleId}`)
       .pipe(catchError(this.handleError));
   }
 

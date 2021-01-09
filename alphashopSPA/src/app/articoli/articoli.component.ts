@@ -25,12 +25,13 @@ export class ArticoliComponent implements OnInit {
   numberOfArticles = 0;
   page = 1;
   articlesPerPage = 1;
-  //message: any;
+  // message: any;
 
   filter = '';
 
   articleId = '';
 
+  apiMessage: ApiMessage;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,8 +78,23 @@ export class ArticoliComponent implements OnInit {
     } else {
       console.log('ID non valido'); this.articles = [];
     }
+  }
 
+  public async deleteArticlebyArticleID(articleId: string) {
+    console.log(`Eliminazione articolo ${articleId}`);
 
+    (await this.articleService.deleteArticleByArticleId(articleId)).subscribe(
+      (response) => {
+        console.log(response);
+        this.apiMessage = response;
+        this.getArticles();
+      },
+      (err) => { console.log(err);}
+    );
+  }
+
+  public async updateArticle(articleId: string) {
+    console.log(`Modifica articolo ${articleId}`);
   }
 
 
@@ -87,6 +103,12 @@ export class ArticoliComponent implements OnInit {
     return (!str || 0 === str.length);
   }
 
+}
+
+export class ApiMessage{
+  constructor(public code: string, public message: string) {
+
+  }
 }
 
 export class Article {

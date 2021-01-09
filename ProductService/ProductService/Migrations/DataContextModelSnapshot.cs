@@ -152,7 +152,8 @@ namespace ProductService.Migrations
                 {
                     b.HasOne("ProductService.Models.Article", "Article")
                         .WithMany("Barcodes")
-                        .HasForeignKey("ArticleId");
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ProductService.Models.Ingredient", b =>

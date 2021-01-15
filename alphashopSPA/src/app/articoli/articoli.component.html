@@ -122,11 +122,11 @@
               <td>{{article.isActive}}</td>
               <td>{{article.dataCreazione | date}}</td>
               <td>
-                <button class="btn btn-warning table-buttons">
+                <button (click)="updateArticleByArticleId(article.articleId)" class="btn btn-warning table-buttons">
                 <span class="oi oi-pencil"></span> Modifica</button>
             </td>
             <td>
-                <button (click)="deleteArticlebyArticleID(article.articleId)" class="btn btn-danger table-buttons">
+                <button (click)="deleteArticlebyArticleId(article.articleId)" class="btn btn-danger table-buttons">
                 <span class="oi oi-trash"></span> Elimina</button>
             </td>
           </tr>

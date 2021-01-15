@@ -31,6 +31,11 @@ export class ArticleService {
       .pipe(catchError(this.handleError));
   }
 
+  public async getArticleByArticleIdWithAllProperties(articleId: string): Promise<Observable<Article>> {
+    return this.httpClient.get<Article>(`${ArticleService.BASE_URL}/articleid/${articleId}/WithAllProperties`)
+      .pipe(catchError(this.handleError));
+  }
+
   public async getArticleByBarcodeId(barcodeId: string) {
     return this.httpClient.get<Article>(`${ArticleService.BASE_URL}/barcodeId/${barcodeId }`)
       .pipe(catchError(this.handleError));

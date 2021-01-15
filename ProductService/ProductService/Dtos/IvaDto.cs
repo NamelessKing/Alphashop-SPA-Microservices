@@ -8,6 +8,7 @@ namespace ProductService.Dtos
 {
     public class IvaDto : IDto
     {
+        public int IvaId { get; set; }
         public string Descrizione { get; set; }
         public short Aliquota { get; set; }
     }

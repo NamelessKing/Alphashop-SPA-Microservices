@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'welcome/:username', component: WelcomeComponent, canActivate: [RouteGuardService] },
   { path: 'articoli', component: ArticoliComponent, canActivate: [RouteGuardService] },
   { path: 'articoli/:filter', component: ArticoliComponent, canActivate: [RouteGuardService] },
-  { path: 'new-article/:articleId', component: NewArticleComponent, canActivate: [RouteGuardService] },
+  { path: 'nuovo-articolo/:articleId', component: NewArticleComponent, canActivate: [RouteGuardService] },
   { path: 'logout', component: LogoutComponent },
   { path: '**', component: ErrorComponent },
 ];

@@ -122,14 +122,14 @@ namespace ProductService.Controllers
             }
 
             var artcleDto = MapArticleToArticleDto(article);
-            return Ok(article);
+            return Ok(artcleDto);
         }
 
         [HttpGet("articleid/{articleId}/WithAllProperties")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(ArticleDto))]
-        public async Task<IActionResult> GetArticleByArticleIdWithAllCollections(string articleId)
+        public async Task<IActionResult> GetArticleByArticleIdWithAllProperties(string articleId)
         {
             var article = await ArticleRepository.GetArticleByArticleId<object>(articleId,
                 a => a.Barcodes,
@@ -303,8 +303,9 @@ namespace ProductService.Controllers
             if (iva == null)
                 return null;
 
-            return new IvaDto() 
+            return new IvaDto()
             {
+                IvaId = iva.IvaId,
                 Aliquota = iva.Aliquota,
                 Descrizione = iva.Descrizione
             };

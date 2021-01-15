@@ -1,1 +1,94 @@
-<p>new-article works!</p>
+<app-jumbotron [Title]="'Dati Articoli'" [SubTitle]="'Inserisci o modifica i dati del nuovo article'" [Show]="false"></app-jumbotron>
+
+<section class="container">
+  <div class="portlet light bordered">
+
+    <div class="portlet-title">
+      <div class="caption font-red-sunglo">
+        <i class="oi oi-pencil"></i>
+        <span class="caption-subject bold uppercase"> Dati Articolo</span>
+      </div>
+    </div>
+
+    <!--Inizio del form di inserimento dati-->
+    <div class="portlet-body form">
+
+      <div class="form-body">
+
+        <div class="form-group">
+          <label for="articleId">Codice Articolo:</label>
+          <input id="articleId"  type="text" [(ngModel)]="article.articleId" class="form-control" placeholder="Codice Articolo"/>
+        </div>
+
+        <div class="form-group">
+          <label for="descrizione">Descrizione Articolo</label>
+          <input id="descrizione" [(ngModel)]="article.descrizione" type="text" class="form-control" placeholder="Descrizione Articolo"/>
+        </div>
+
+        <div class="form-group">
+          <label for="um">Unità di Misura</label>
+          <select class="form-control" [(ngModel)]="article.um">
+            <option value="PZ">Pezzi</option>
+            <option value="LT">Litri</option>
+            <option value="KG">Kilogrammi</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group col-md-4" >
+            <label for="pzCart">Pezzi Per Cartone:</label>
+            <input id="pzCart" [(ngModel)]="article.pzCart" type="number" class="form-control"/>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="pesoNetto">Peso Netto:</label>
+            <input id="pesoNetto" [(ngModel)]="article.pesoNetto" type="number" class="form-control"/>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="idIva">Iva:</label>
+            <select class="form-control" [(ngModel)]="article.iva.ivaId">
+              <!-- <option [ngValue]="iva.idIva" *ngFor="let iva of Iva">{{iva.descrizione}}</option> -->
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" [(ngModel)]="article.codeStat" name="idStatoArt" value="1" checked="true">Attivo
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" [(ngModel)]="article.articleStateId" name="idStatoArt" value="2">Sospeso
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" [(ngModel)]="article.articleStateId" name="idStatoArt" value="3">Eliminato
+              </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="idFamAss">Famiglia Assortimento:</label>
+          <select class="form-control" [(ngModel)]="article.assortmentFamily.assortmentFamilyId">
+              <!-- <option [ngValue]="categoria.id" *ngFor="let categoria of Cat">{{categoria.descrizione}}</option> -->
+          </select>
+        </div>
+
+        <hr class="line-form">
+
+        <!-- <button type="submit" id="btnAdd" (click)="salva()" class="btn btn-primary form-buttons">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>  Salva
+        </button> -->
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

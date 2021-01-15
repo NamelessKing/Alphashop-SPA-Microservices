@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 import { ArticleService } from './../services/data/productService/article.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 
@@ -24,7 +24,7 @@ export class ArticoliComponent implements OnInit {
 
   numberOfArticles = 0;
   page = 1;
-  articlesPerPage = 1;
+  articlesPerPage = 3;
   // message: any;
 
   filter = '';
@@ -35,7 +35,9 @@ export class ArticoliComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private articleService: ArticleService) { }
+    private articleService: ArticleService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getArticles();
@@ -80,7 +82,7 @@ export class ArticoliComponent implements OnInit {
     }
   }
 
-  public async deleteArticlebyArticleID(articleId: string) {
+  public async deleteArticlebyArticleId(articleId: string) {
     console.log(`Eliminazione articolo ${articleId}`);
 
     (await this.articleService.deleteArticleByArticleId(articleId)).subscribe(
@@ -89,14 +91,15 @@ export class ArticoliComponent implements OnInit {
         this.apiMessage = response;
         this.getArticles();
       },
-      (err) => { console.log(err);}
+      (err) => { console.log(err); }
     );
   }
 
-  public async updateArticle(articleId: string) {
+  public async updateArticleByArticleId(articleId: string) {
     console.log(`Modifica articolo ${articleId}`);
-  }
 
+    this.router.navigate(['nuovo-articolo', articleId]);
+  }
 
 
   private isEmpty(str: string): boolean {
@@ -105,10 +108,8 @@ export class ArticoliComponent implements OnInit {
 
 }
 
-export class ApiMessage{
-  constructor(public code: string, public message: string) {
-
-  }
+export class ApiMessage {
+  constructor(public code: string, public message: string) { }
 }
 
 export class Article {
@@ -119,8 +120,41 @@ export class Article {
     public codeStat: string,
     public pzCart: number,
     public pesoNetto: number,
-    public prezzo: number,
-    public isActive: boolean,
-    public dataCreazione: Date
+    public dataCreazione: Date,
+    public barcodes: Barcode[] = [],
+    public iva: Iva,
+    public ingredient: Ingredient,
+    public assortmentFamily: AssortmentFamily,
+    public articleStateId: string
+  ) { }
+}
+
+export class Barcode {
+  constructor(
+    public barcodeId: string,
+    public idTipoArt: string,
+  ) { }
+}
+
+export class Iva {
+  constructor(
+    public ivaId: number,
+    public descrizione: string,
+    public aliquota: number,
+  ) { }
+}
+
+
+export class Ingredient {
+  constructor(
+    public articleId: string | null,
+    public info: string,
+  ) { }
+}
+
+export class AssortmentFamily {
+  constructor(
+    public assortmentFamilyId: number | null,
+    public Descrizione: string,
   ) { }
 }
